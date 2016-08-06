@@ -1,5 +1,19 @@
 <!DOCTYPE html>
 <html>
+<head>
+<title>Dice Quiz Prototype</title>
+</head>
+
+<!--
+This small prototype implements a function which solves the dice quiz as 
+explained in the quiz introduction - analysis and solutions text-file by
+means of the intelligent algorithm.
+
+Version: 	0.2
+Modified: 	06.08.2016 at 21:37
+Author:  	Mert Canko
+-->
+
 <body>
 
 <p>The solution to the dice quiz is:</p>
@@ -7,6 +21,10 @@
 <p id="dice-quiz"></p>
 
 <script>
+/** 
+ *  Calculates and returns the total sum of the dice-route 
+ *  dependant on the first two dice numbers.
+ */
 function solveDiceQuiz(firstDiceNumber, secondDiceNumber) {
     
     var pairtest = firstDiceNumber + secondDiceNumber;
@@ -19,11 +37,14 @@ function solveDiceQuiz(firstDiceNumber, secondDiceNumber) {
 
     } else {
 
-        if (sum != 42) {return sum}
+		if (sum > 42) {return "Please choose valid dice numbers from 1 to 6"}
+	
+        else if (sum < 42) {return sum}
 
         else {return sum + " (the meaning of life)";}
     }
 }
+// Choose first two dice numbers for the maximum total sum.
 document.getElementById("dice-quiz").innerHTML = solveDiceQuiz(6, 5);
 </script>
 
