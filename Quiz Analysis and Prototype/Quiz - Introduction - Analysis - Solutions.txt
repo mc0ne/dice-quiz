@@ -1,0 +1,75 @@
+Quiz: http://www.zeit.de/spiele/2016-07/logisches-denken-raetsel-wuerfel-zahlen-felder
+
+Aufgabe:
+
+- Ein Würfel mit 6 Seiten soll auf einem Spielfeld mit 3*3=9 Feldern derart entlangwandern, dass:
+	- im mittleren Feld gestartet wird
+	- jedes Feld einmal berührt wird
+	- der Würfel entlang einer Kante gekippt wird um zum nächsten Feld zu gelangen
+	- die Summe der von oben ablesbaren Würfelzahlen maximal ist
+
+- Die Startseite und Ausrichtung des Würfels kann selbst gewählt werden
+
+Lösung:
+
+- Es gibt verschiedene Lösungsansätze
+
+	- bruteforce (führt bei geringer Komplexität oft schnell zum Ziel)
+
+	- intelligent mathematisches Gleichnis, das aufgelöst wird 
+		- Nachteil: kann mehr Zeit erfordern bis man auf die Formel kommt
+		- Vorteil: kann meist leichter skaliert und angepasst werden und liefert bei hoher Komplexität die kürzere Laufzeit
+
+- Analyse des Würfels
+
+	- der Würfel hat 6 Seiten mit den Würfelzahlen 1 bis 6
+	- je zwei gegenüber liegende Seiten haben die Würfelzahlsumme 7
+	- es gibt drei dieser Paare (1,6),(2,5),(3,4)
+
+- Analyse des Spielfelds
+
+		(1,1),(1,2),(1,3)
+		(2,1),(2,2),(2,3)
+		(3,1),(3,2),(3,3)
+
+	- das Feld besteht aus 3*3=9 Feldern
+	- es gibt einen Startpunkt (2,2) in der Mitte
+	- es gibt vier mögliche Startpfade für den Würfel
+		- (1,2) , (2,3) , (3,2) , (2,1)
+		- diagonale Bewegungen sind nicht möglich
+	- es gibt vier mögliche Endpunkte
+		- (1,1) , (1,3) , (3,1) , (3,3)
+
+- Analyse der Würfelroute auf dem Feld
+
+	- der Würfel beginnt in der Mitte des Spielfeldes (2,2) mit beliebiger Würfelzahl und Kantenausrichtung
+		- daher sind die möglichen Routen vom Startpfad bis zum Endpunkt nur kosmetischer Natur und können auf eine Route reduziert werden
+	- wir wählen   den Startpfad mit (1,2)                    und als Endpunkt (1,1)
+	- die resultierende Route: (2,2),(1,2),(1,3),(2,3),(3,3),(3,2),(3,1),(2,1),(1,1)
+	
+
+- Bruteforce
+
+	- alle möglichen Startformationen des Würfels werden auf die Route angewendet und die resultierenden Würfelzahlsummen verglichen
+	- diejenige Startformation, welche in der höchsten Summe resultiert, wird mit dieser ausgegeben.
+
+- Mathematisches Gleichnis
+
+	- die Routen-Summe besteht aus 9 Additionen und das Ziel ist die einzelnen Summanden möglichst groß zu halten
+	- die Startzahl A auf Feld (2,2) tritt beim Durchlaufen der gewählten Route zwei weitere Male auf, undzwar bei (2,3) und (2,1)
+	- die Startpfadzahl B auf Feld (1,2) kommt ein weiteres Mal vor, undzwar bei (3,2)
+	- die Eckzahl C auf (1,3) kommt erneut bei (3,1) vor
+	- die Eckzahl D auf (3,3) kommt erneut am Endpunkt (1,1) vor
+
+
+	- die resultierende Routen-Würfelzahlsumme = 3A + 2B + 2C + 2D
+
+	- C und D haben eine Besonderheit, sie liegen geometrisch immer gegenüber und ergeben daher immer die Summe 7
+
+	- vereinfachte Routen-Würfelzahlsumme = 3A + 2B + 2(C+D) = 3A + 2B + 14
+
+	- der implementierte Algorithmus muss nun die möglichen 6 Augenzahlen in diese reduzierte Summenformel einsetzen um die maximale Summe zu bestimmen
+
+	- als menschlicher Algorithmus würde man direkt wählen: A = 6 und B = 5 und den Würfel am Startpunkt entsprechend positionieren
+
+		-> resultiert in 3*6 + 2*5 + 14 = 42 (der Sinn des Lebens)
