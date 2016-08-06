@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>The solution to the dice quiz is:</p>
+
+<p id="dice-quiz"></p>
+
+<script>
+function solveDiceQuiz(firstDiceNumber, secondDiceNumber) {
+    
+    var pairtest = firstDiceNumber + secondDiceNumber;
+
+    var sum = 3*firstDiceNumber + 2*secondDiceNumber + 14;
+
+    if (pairtest == 7 || firstDiceNumber == secondDiceNumber) {
+
+        return "Please choose a valid second dice number";
+
+    } else {
+
+        if (sum != 42) {return sum}
+
+        else {return sum + " (the meaning of life)";}
+    }
+}
+document.getElementById("dice-quiz").innerHTML = solveDiceQuiz(6, 5);
+</script>
+
+</body>
+</html>
